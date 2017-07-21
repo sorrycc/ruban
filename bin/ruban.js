@@ -4,18 +4,23 @@ const rimraf = require('rimraf');
 const { join } = require('path');
 const { spawn } = require('child_process');
 const camelcase = require('camelcase');
+const which = require('which');
 const vfs = require('vinyl-fs');
+const { readFileSync } = require('fs');
 const os = require('os');
 const through = require('through2');
+const chalk = require('chalk');
 const babel = require('babel-core');
 const getBabelConfig = require('../lib/getBabelConfig');
 
 const script = camelcase(process.argv[2]);
 const args = process.argv.slice(3);
 
+const cwd = process.cwd();
+
 function build() {
   rimraf.sync('./lib');
-  vfs.src('./src/**/*.js')
+  return vfs.src('./src/**/*.js')
     .pipe(through.obj(function(f, enc, cb) {
       f.contents = new Buffer(babel.transform(f.contents, getBabelConfig()).code);
       cb(null, f);
@@ -56,7 +61,29 @@ function lintStaged() {
   runCommand(require.resolve('lint-staged/index.js'));
 }
 
+function pub() {
+  build()
+    .on('end', () => {
+      const { name } = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf-8'));
+      const isAli = name.indexOf('@ali/') === 0 || name.indexOf('@alipay') === 0;
+      const npm = isAli ? 'tnpm' : 'npm';
+      const cmd = args.indexOf('--beta') > -1
+        ? `${npm} publish --beta`
+        : `${npm} publish`;
+
+      runCommand(cmd).on('exit', () => {
+        if (!isAli) {
+          try {
+            runCommand(`cnpm sync ${name} && tnpm sync ${name}`);
+          } catch (e) {
+          }
+        }
+      });
+    });
+}
+
 function runCommand(cmd) {
+  console.log(chalk.green.bold(`>> ${cmd}`));
   const command = (os.platform() === 'win32' ? 'cmd.exe' : 'sh');
   const args = (os.platform() === 'win32' ? ['/s', '/c'] : ['-c']);
   return spawn(command, args.concat([cmd]), {

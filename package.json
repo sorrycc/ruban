@@ -30,6 +30,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "camelcase": "^4.1.0",
+    "chalk": "^2.0.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.1",
     "eslint-config-airbnb": "^15.0.2",
@@ -43,6 +44,7 @@
     "nyc": "^11.0.3",
     "rimraf": "^2.6.1",
     "through2": "^2.0.3",
-    "vinyl-fs": "^2.4.4"
+    "vinyl-fs": "^2.4.4",
+    "which": "^1.2.14"
   }
 }
