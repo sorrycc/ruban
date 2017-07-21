@@ -1,6 +1,6 @@
 {
   "name": "ruban",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Ruban is a personal tool pack for creating repos.",
   "bin": {
     "ruban": "./bin/ruban.js"
