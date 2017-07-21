@@ -1,5 +1,9 @@
 # Ruban
 
+[![NPM version](https://img.shields.io/npm/v/ruban.svg?style=flat)](https://npmjs.org/package/ruban)
+[![NPM downloads](http://img.shields.io/npm/dm/ruban.svg?style=flat)](https://npmjs.org/package/ruban)
+[![Dependencies](https://david-dm.org/sorrycc/ruban/status.svg)](https://david-dm.org/sorrycc/ruban)
+
 Ruban is a personal tool pack for creating repos.
 
 ## Why is it called Ruban
