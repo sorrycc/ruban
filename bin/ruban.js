@@ -52,7 +52,7 @@ function coveralls() {
 
 function lint() {
   const eslintBin = require.resolve('eslint/bin/eslint.js');
-  const config = join(__dirname, '../.eslintrc');
+  const config = join(__dirname, '../eslintrc');
   const cmd = `${eslintBin} --config ${config} --ext .js src test`;
   runCommand(cmd);
 }
