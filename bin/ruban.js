@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 const rimraf = require('rimraf');
-const { join } = require('path');
-const { spawn } = require('child_process');
+const join = require('path').join;
+const spawn = require('child_process').spawn;
 const camelcase = require('camelcase');
 const which = require('which');
 const vfs = require('vinyl-fs');
-const { readFileSync } = require('fs');
+const readFileSync  = require('fs').readFileSync;
 const os = require('os');
 const through = require('through2');
 const chalk = require('chalk');
@@ -64,7 +64,7 @@ function lintStaged() {
 function pub() {
   build()
     .on('end', () => {
-      const { name } = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf-8'));
+      const name = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf-8')).name;
       const isAli = name.indexOf('@ali/') === 0 || name.indexOf('@alipay') === 0;
       const npm = isAli ? 'tnpm' : 'npm';
       const cmd = args.indexOf('--beta') > -1
