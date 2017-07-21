@@ -11,7 +11,7 @@ const os = require('os');
 const through = require('through2');
 const chalk = require('chalk');
 const babel = require('babel-core');
-const getBabelConfig = require('../lib/getBabelConfig');
+const getBabelConfig = require('../src/getBabelConfig');
 
 const script = camelcase(process.argv[2]);
 const args = process.argv.slice(3);
@@ -32,7 +32,7 @@ function test(noCoverage) {
   const nycBin = require.resolve('nyc/bin/nyc.js');
   const nycCommand = `${nycBin} --include=src/**/*.js --source-map=false --instrument=false`;
   const mochaBin = require.resolve('mocha/bin/_mocha');
-  const compiler = join(__dirname, '../lib/compiler.js');
+  const compiler = join(__dirname, '../src/compiler.js');
   const cmd = noCoverage
     ? `${mochaBin} --compilers .:${compiler} ${args}`
     : `${nycCommand} ${mochaBin} --compilers .:${compiler} ${args}`;
