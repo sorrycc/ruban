@@ -20,6 +20,9 @@
   "keywords": [
     "tool"
   ],
+  "scripts": {
+    "pub": "npm publish && cnpm sync ruban && tnpm sync ruban"
+  },
   "dependencies": {
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
