@@ -1,0 +1,38 @@
+{
+  "name": "{{name}}",
+  "version": "0.1.0",
+  "description": "{{description}}",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/{{organization}}/{{name}}"
+  },
+  "homepage": "https://github.com/{{organization}}/{{name}}",
+  "keywords": [
+  ],
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/{{organization}}/dva/issues"
+  },
+  "scripts": {
+    "build": "ruban build",
+    "test": "ruban lint && ruban test",
+    "debug": "ruban debug",
+    "coveralls": "ruban coveralls",
+    "lint": "ruban lint",
+    "pub": "ruban pub",
+    "precommit": "ruban lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "ruban": "^0.1.0"
+  }
+}

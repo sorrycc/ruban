@@ -29,4 +29,8 @@ $ ruban coveralls
 # Lint with eslint and eslint-config-airbnb
 $ ruban lint
 $ ruban lint-staged
+
+# Publish
+$ ruban pub
+$ ruban pub --beta
 ```
