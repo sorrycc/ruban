@@ -7,10 +7,12 @@ const camelcase = require('camelcase');
 const which = require('which');
 const vfs = require('vinyl-fs');
 const readFileSync  = require('fs').readFileSync;
+const writeFileSync  = require('fs').writeFileSync;
 const os = require('os');
 const through = require('through2');
 const chalk = require('chalk');
 const babel = require('babel-core');
+const chokidar = require('chokidar');
 const getBabelConfig = require('../src/getBabelConfig');
 
 const script = camelcase(process.argv[2]);
@@ -18,8 +20,29 @@ const args = process.argv.slice(3);
 
 const cwd = process.cwd();
 
+function watchAndBuild(src) {
+  console.log('start watch');
+  const watcher = chokidar.watch(src, {
+    persistent: true,
+  });
+  watcher.on('all', (event, fullPath) => {
+    if (['add', 'change'].indexOf(event) > -1) {
+      const path = fullPath.replace(`${cwd}/src/`, '');
+      console.log(chalk.green.bold(`[${event}]`), `src/${path}`);
+      const content = readFileSync(fullPath, 'utf-8');
+      const transformedContent = babel.transform(content, getBabelConfig()).code;
+      writeFileSync(join(cwd, 'lib', path), transformedContent, 'utf-8');
+    }
+  });
+}
+
 function build() {
   rimraf.sync('./lib');
+  if (args.indexOf('-w') > -1 || args.indexOf('--watch') > -1) {
+    setTimeout(() => {
+      watchAndBuild(join(cwd, './src'));
+    }, 1000);
+  }
   return vfs.src('./src/**/*.js')
     .pipe(through.obj(function(f, enc, cb) {
       f.contents = new Buffer(babel.transform(f.contents, getBabelConfig()).code);
