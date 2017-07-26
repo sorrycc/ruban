@@ -14,6 +14,8 @@ $ ruban new [repo]
 
 # Compile src to lib
 $ ruban build
+$ ruban build -w
+$ ruban build --watch
 
 # Test with mocha, report and coveralls
 $ ruban test
