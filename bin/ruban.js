@@ -57,8 +57,8 @@ function test(noCoverage) {
   const mochaBin = require.resolve('mocha/bin/_mocha');
   const compiler = join(__dirname, '../src/compiler.js');
   const cmd = noCoverage
-    ? `${mochaBin} --compilers .:${compiler} ${args}`
-    : `${nycCommand} ${mochaBin} --compilers .:${compiler} ${args}`;
+    ? `${mochaBin} --compilers .:${compiler} ${args.join(' ')}`
+    : `${nycCommand} ${mochaBin} --compilers .:${compiler} ${args.join(' ')}`;
   runCommand(cmd);
 }
 
