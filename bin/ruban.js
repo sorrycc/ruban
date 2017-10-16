@@ -13,6 +13,7 @@ const through = require('through2');
 const chalk = require('chalk');
 const babel = require('babel-core');
 const chokidar = require('chokidar');
+const mkdirp = require('mkdirp');
 const getBabelConfig = require('../src/getBabelConfig');
 
 const script = camelcase(process.argv[2]);
@@ -31,6 +32,7 @@ function watchAndBuild(src) {
       console.log(chalk.green.bold(`[${event}]`), `src/${path}`);
       const content = readFileSync(fullPath, 'utf-8');
       const transformedContent = babel.transform(content, getBabelConfig()).code;
+      mkdirp.sync(join(cwd, 'lib'));
       writeFileSync(join(cwd, 'lib', path), transformedContent, 'utf-8');
     }
   });
