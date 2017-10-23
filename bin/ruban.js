@@ -7,7 +7,7 @@ const camelcase = require('camelcase');
 const which = require('which');
 const vfs = require('vinyl-fs');
 const readFileSync  = require('fs').readFileSync;
-const writeFileSync  = require('fs').writeFileSync;
+const outputFileSync  = require('fs-extra').outputFileSync;
 const os = require('os');
 const through = require('through2');
 const chalk = require('chalk');
@@ -33,7 +33,7 @@ function watchAndBuild(src) {
       const content = readFileSync(fullPath, 'utf-8');
       const transformedContent = babel.transform(content, getBabelConfig()).code;
       mkdirp.sync(join(cwd, 'lib'));
-      writeFileSync(join(cwd, 'lib', path), transformedContent, 'utf-8');
+      outputFileSync(join(cwd, 'lib', path), transformedContent, 'utf-8');
     }
   });
 }
