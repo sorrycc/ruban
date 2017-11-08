@@ -11,7 +11,7 @@ const outputFileSync  = require('fs-extra').outputFileSync;
 const os = require('os');
 const through = require('through2');
 const chalk = require('chalk');
-const babel = require('babel-core');
+const babel = require('@babel/core');
 const chokidar = require('chokidar');
 const mkdirp = require('mkdirp');
 const getBabelConfig = require('../src/getBabelConfig');
@@ -114,6 +114,11 @@ function runCommand(cmd) {
   return spawn(command, args.concat([cmd]), {
     stdio: 'inherit',
   });
+}
+
+if (process.argv[2] === '-v') {
+  console.log(require('../package').version);
+  process.exit(0);
 }
 
 if (!script) {
