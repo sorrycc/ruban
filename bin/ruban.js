@@ -31,9 +31,14 @@ function watchAndBuild(src) {
       const path = fullPath.replace(`${cwd}/src/`, '');
       console.log(chalk.green.bold(`[${event}]`), `src/${path}`);
       const content = readFileSync(fullPath, 'utf-8');
-      const transformedContent = babel.transform(content, getBabelConfig()).code;
-      mkdirp.sync(join(cwd, 'lib'));
-      outputFileSync(join(cwd, 'lib', path), transformedContent, 'utf-8');
+      try {
+        const transformedContent = babel.transform(content, getBabelConfig()).code;
+        mkdirp.sync(join(cwd, 'lib'));
+        outputFileSync(join(cwd, 'lib', path), transformedContent, 'utf-8');
+      } catch (e) {
+        console.log(chalk.red('Compiled failed.'));
+        console.log(chalk.red(e.message));
+      }
     }
   });
 }
