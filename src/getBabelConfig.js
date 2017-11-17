@@ -1,11 +1,9 @@
 
-const isNodeTarget = process.env.NODE_TARGET;
-
 module.exports = function () {
   return {
     babelrc: false,
     presets: [
-      [require.resolve('babel-preset-af-react'), isNodeTarget ? {
+      [require.resolve('babel-preset-af-react'), process.env.NODE_TARGET ? {
         targets: {
           node: 6,
         }
@@ -13,8 +11,11 @@ module.exports = function () {
     ],
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
-      require.resolve('@babel/plugin-transform-modules-commonjs'),
-      require.resolve('@babel/plugin-transform-runtime')
-    ]
+      require.resolve('@babel/plugin-transform-modules-commonjs')
+    ].concat(
+      process.env.DISABLE_TRANSFORM_RUNTIME ? [] : [
+        require.resolve('@babel/plugin-transform-runtime')
+      ]
+    )
   };
 };
