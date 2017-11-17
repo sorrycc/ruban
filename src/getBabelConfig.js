@@ -1,13 +1,15 @@
 
+const isNodeTarget = process.env.NODE_TARGET;
+
 module.exports = function () {
   return {
     babelrc: false,
     presets: [
-      [require.resolve('babel-preset-af-react'), {
+      [require.resolve('babel-preset-af-react'), isNodeTarget ? {
         targets: {
           node: 6,
         }
-      }]
+      } : {}]
     ],
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
