@@ -3,7 +3,7 @@ module.exports = function () {
   return {
     babelrc: false,
     presets: [
-      [require.resolve('babel-preset-af-react'), {
+      [require.resolve('babel-preset-umi'), {
         targets: process.env.NODE_TARGET ? {
           node: 6,
         } : null,
@@ -11,7 +11,6 @@ module.exports = function () {
       }]
     ],
     plugins: [
-      require.resolve('babel-plugin-add-module-exports'),
       require.resolve('@babel/plugin-transform-modules-commonjs')
     ]
   };

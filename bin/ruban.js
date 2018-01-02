@@ -4,7 +4,6 @@ const rimraf = require('rimraf');
 const join = require('path').join;
 const spawn = require('child_process').spawn;
 const camelcase = require('camelcase');
-const which = require('which');
 const vfs = require('vinyl-fs');
 const readFileSync  = require('fs').readFileSync;
 const outputFileSync  = require('fs-extra').outputFileSync;
@@ -121,8 +120,12 @@ function runCommand(cmd) {
   });
 }
 
-if (process.argv[2] === '-v') {
-  console.log(require('../package').version);
+if (process.argv[2] === '-v' || process.argv[2] === '--version') {
+  const pkg = require('../package.json');
+  console.log(pkg.version);
+  if (!(pkg._from && pkg._resolved)) {
+    console.log(chalk.cyan('@local'));
+  }
   process.exit(0);
 }
 
