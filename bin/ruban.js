@@ -18,7 +18,7 @@ const getBabelConfig = require('../src/getBabelConfig');
 const script = camelcase(process.argv[2]);
 const args = process.argv.slice(3);
 
-const cwd = process.cwd();
+const cwd = winPath(process.cwd());
 
 function watchAndBuild(src) {
   console.log('start watch');
@@ -27,7 +27,7 @@ function watchAndBuild(src) {
   });
   watcher.on('all', (event, fullPath) => {
     if (['add', 'change'].indexOf(event) > -1) {
-      const path = fullPath.replace(`${cwd}/src/`, '');
+      const path = winPath(fullPath).replace(`${cwd}/src/`, '');
       console.log(chalk.green.bold(`[${event}]`), `src/${path}`);
       const content = readFileSync(fullPath, 'utf-8');
       try {
@@ -118,6 +118,10 @@ function runCommand(cmd) {
   return spawn(command, args.concat([cmd]), {
     stdio: 'inherit',
   });
+}
+
+function winPath(path) {
+  return path.replace(/\\/g, '/');
 }
 
 if (process.argv[2] === '-v' || process.argv[2] === '--version') {
